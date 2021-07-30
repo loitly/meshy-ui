@@ -51,38 +51,17 @@ export default function App() {
                         <li>Intuitive, feature-complete API</li>
                     </ul>
                 </a>
-                <a href='https://react-hook-form.com/' className='card'>
-                    <h3>React Hook Form</h3>
-                    <ul>
-                        <li>HTML standard</li>
-                        <li>Built-in validation</li>
-                        <li>Intuitive, feature-complete API</li>
-                    </ul>
-                </a>
-                <a href='https://react-hook-form.com/' className='card'>
-                    <h3>React Hook Form</h3>
-                    <ul>
-                        <li>HTML standard</li>
-                        <li>Built-in validation</li>
-                        <li>Intuitive, feature-complete API</li>
-                    </ul>
-                </a>
-                <a href='https://react-hook-form.com/' className='card'>
-                    <h3>React Hook Form</h3>
-                    <ul>
-                        <li>HTML standard</li>
-                        <li>Built-in validation</li>
-                        <li>Intuitive, feature-complete API</li>
-                    </ul>
-                </a>
-                <a href='https://react-hook-form.com/' className='card'>
-                    <h3>React Hook Form</h3>
-                    <ul>
-                        <li>HTML standard</li>
-                        <li>Built-in validation</li>
-                        <li>Intuitive, feature-complete API</li>
-                    </ul>
-                </a>
+                <Link href="/gator/">
+                    <a className='card'>
+                        <h3>Examples: Gator</h3>
+                        <ul>
+                            <li>Firefly</li>
+                            <li>Meshy Form</li>
+                            <li>Styled CSS</li>
+                            <li>Aladin</li>
+                        </ul>
+                    </a>
+                </Link>
             </div>
 
             <style jsx> {`

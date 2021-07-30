@@ -4,12 +4,13 @@ const fs = require('fs');
 const action = process.argv.length > 2 && process.argv[2];
 
 const linkEntries = [
-    ['/pages/index.js', './pages/index.js'],
-    ['/pages/about.js', './pages/about.js'],
-    ['/pages/docs.js', './pages/docs.js'],
-    ['/pages/gator', './pages/gator'],
-    ['/api/frontpage-data', './pages/api/frontpage-data'],
-    ['/public/gator', './public/gator']
+    ['../examples/pages/index.js',  './pages/index.js'],
+    ['../examples/pages/about.js',  './pages/about.js'],
+    ['../examples/pages/docs.js',   './pages/docs.js'],
+    ['../../examples/api/frontpage-data', './pages/api/frontpage-data'],
+    ['../examples/pages/gator',     './pages/gator'],
+    ['../examples/public/gator',    './public/gator'],
+    ['../examples/pages/aladin',    './pages/aladin']
 ];
 
 
@@ -17,7 +18,7 @@ if (!action || action === 'init') {
     linkEntries.forEach(item => {
         const target = item[0];
         const path = item[1];
-        fs.symlink(__dirname + target,
+        fs.symlink(target,
             path, 'dir', (err) => {
                 if (err)
                     console.log(err);

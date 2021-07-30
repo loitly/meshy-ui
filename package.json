@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev":   "yarn install --frozen-lockfile && next dev",
+    "dev": "yarn install --frozen-lockfile && next dev",
     "build": "yarn install --frozen-lockfile && next build",
-    "start": "yarn install --frozen-lockfile && next start",
+    "start": "yarn next start",
+    "test": "jest",
     "examples": "node ./examples/init.js"
   },
   "dependencies": {
@@ -13,5 +14,19 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^7.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6"
+  },
+  "babel": {
+    "presets": ["next/babel", ["@babel/preset-env", {"targets": {"node": "current"}}]]
+  },
+  "jest": {
+    "verbose": true,
+    "clearMocks": true,
+    "collectCoverage": true
   }
 }

@@ -41,7 +41,7 @@ async function loadAladin(scriptName) {
 }
 
 
-export function Aladin({survey='P/DSS2/color', fov=60, target, id=`aladin-${uniqueId()}`, style={}}) {
+export function Aladin({survey='P/DSS2/color', fov=60, target, id='aladin-ui', style={}}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
 

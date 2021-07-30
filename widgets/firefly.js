@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import {uniqueId} from 'lodash';
 
+const DEF_FIREFLY = 'https://fireflydev.ipac.caltech.edu/firefly/'
+
 
 let notifyMe = [];
 async function loadFirefly(scriptName) {
@@ -14,7 +16,7 @@ async function loadFirefly(scriptName) {
             notifyMe = [];
         }
     }
-    scriptName = scriptName || 'https://fireflydev.ipac.caltech.edu/firefly/firefly_loader.js';
+    scriptName = scriptName || DEF_FIREFLY + 'firefly_loader.js';
     return new Promise(
         function(resolve, reject) {
             const head= document.getElementsByTagName('head')[0];
@@ -125,4 +127,15 @@ export function FFTableGroup({style={}, tbl_group=`group-${uniqueId()}`, childre
 
     style = {width: '100%', height: '100%', ...style};
     return (<div style={style} id={tbl_group}/>);
+}
+
+
+/**
+ * Use firefly to fetch a table from the given request.
+ * @param {TableRequest} request  of type https://fireflydev.ipac.caltech.edu/firefly/docs/js/global.html#TableRequest
+ */
+export async function tableFetch(request) {
+    await loadFirefly();
+    request = {pageSize:Number.MAX_SAFE_INTEGER, ...request};
+    return await firefly.util.table.doFetchTable(request);
 }

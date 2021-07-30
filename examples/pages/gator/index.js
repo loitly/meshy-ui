@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Head from 'next/head'
+import {uniq} from 'lodash'
 
-import {FFTable, FFCoverage, FFChart} from '../../../widgets/firefly'
+import {FFTable, FFCoverage, FFChart, tableFetch, getColumnValues} from '../../../widgets/firefly'
 import {hashcode} from '../../../util/utils'
 import {Aladin} from '../../../widgets/aladin';
 
-import {Form, Input} from '../../../widgets/form';
+import {Form, Input, Select} from '../../../widgets/form';
 import {Page} from '../index';
+import {useFormContext} from 'react-hook-form';
 
 export default function App() {
 
@@ -38,7 +40,11 @@ export default function App() {
             <div className='container'>
                 <div id='irsa-banner'   style={{minWidth:768, minHeight: 95}}/>
                 <h2 style={{textAlign: 'center'}}>General Catalog Query Engine</h2>
-                {showForm && <SearchForm {...{onSubmit}} />}
+                {showForm &&
+                    <Form className='form' onSubmit={onSubmit} options={{mode:'onBlur', shouldUnregister: false}}>
+                        <Position onSubmit={onSubmit}/>
+                    </Form>
+                }
                 {tblSrc && <Results {...{tblSrc, showForm, setShowForm}}/>}
             </div>
 
@@ -55,32 +61,44 @@ export default function App() {
     );
 }
 
+function Position({onSubmit}) {
 
-function SearchForm({onSubmit}) {
+    const {watch} = useFormContext();
+
+    const [catMaster, setCatMaster] = useState();
+
+    const project = watch("project");
+
+    const projects = uniq(catMaster?.tableData?.data?.map((r) => r[0])).map((value) => {return {value}});
+    const catalogs = catMaster?.tableData?.data?.filter((r) => r[0] === project)?.map((r) => {return {value:r[4]}});
+
+    useEffect(() => {
+        tableFetch({id: 'irsaCatalogMasterTable'}).then((table) => {
+            setCatMaster(table);
+        });
+    }, []);
 
     return (
         <div className='box'>
-            <Form className='form' onSubmit={onSubmit} options={{mode:'onBlur', shouldUnregister: false}}>
-                <Input name='pos' label='Position:' required={true}/>
+            <Input name='pos' label='Position:' required={true}/>
 
-                <div className='examples'>
-                    <div> Examples:</div>
-                    <div>
-                        <a onClick={() => onSubmit({pos: 'MESSIER 081', radius: 10, catalog: 'allwise_p3as_psd'})}>MESSIER 081 </a>
-                        <a onClick={() => onSubmit({pos: '142.09185 +40.90014 ga', radius: 10, catalog: 'allwise_p3as_psd'})}> 142.09185 +40.90014 ga </a>
-                        <a onClick={() => onSubmit({pos: '09h55m33.17s +69d03m55.0s', radius: 10, catalog: 'allwise_p3as_psd'})}> 09h55m33.17s +69d03m55.0s </a>
-                        <a onClick={() => onSubmit({pos: '119.4903298 51.5802410 ecl', radius: 10, catalog: 'allwise_p3as_psd'})}> 119.4903298 51.5802410 ecl </a>
-                    </div>
+            <div className='examples'>
+                <div> Examples:</div>
+                <div>
+                    <a onClick={() => onSubmit({pos: 'MESSIER 081', radius: 10, catalog: 'allwise_p3as_psd'})}>MESSIER 081 </a>
+                    <a onClick={() => onSubmit({pos: '142.09185 +40.90014 ga', radius: 10, catalog: 'allwise_p3as_psd'})}> 142.09185 +40.90014 ga </a>
+                    <a onClick={() => onSubmit({pos: '09h55m33.17s +69d03m55.0s', radius: 10, catalog: 'allwise_p3as_psd'})}> 09h55m33.17s +69d03m55.0s </a>
+                    <a onClick={() => onSubmit({pos: '119.4903298 51.5802410 ecl', radius: 10, catalog: 'allwise_p3as_psd'})}> 119.4903298 51.5802410 ecl </a>
                 </div>
+            </div>
 
-                <div className='cat'>
-                    <Input name='radius'  label='Radius:' {...{min:1, max:1080, required:true}}/>
-                    <Input name='catalog' label='Catalog:' defaultValue='allwise_p3as_psd'/>
-                    <Input name='mission' label='Mission:' defaultValue='irsa' {...{min:1, max:1080, required:true}}/>
-                </div>
+            <div className='cat'>
+                <Input name='radius'  label='Radius:' {...{min:1, max:1080, required:true}}/>
+                <Select name='project' label='Project:' options={projects}/>
+                <Select name='catalog' label='Catalog:' options={catalogs}/>
+            </div>
 
-                <div><input style={{marginTop: 20}} type='submit'/></div>
-            </Form>
+            <div><input style={{marginTop: 20}} type='submit'/></div>
 
             <style jsx> {`
                 .box {

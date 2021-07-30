@@ -37,7 +37,25 @@ export function Input({label, name, ...props}) {
     return (
         <div>
             <label className='form-label' htmlFor={name} {...labelProps}>{text}</label>
-            <input {...{...rest, name, className:inputCN, title: {err}}} {...register(name, {required, maxLength, minLength, max, min, pattern, validate})} />
+            <input {...{...rest, name, className:inputCN, title:err}} {...register(name, {required, maxLength, minLength, max, min, pattern, validate})} />
+        </div>
+    );
+}
+
+export function Select({label, name, ...props}) {
+    const {register, formState: { errors }} = useFormContext();
+    const {options, onChange, title, ...rest} = props;
+    const {text, ...labelProps} = isString(label) ? {text: label} : label;
+    const inputCN = 'form-input' + (errors[name] ? ' invalid' : '');
+    const err = errMsg(name, errors, props);
+    return (
+        <div>
+            <label className='form-label' htmlFor={name} {...labelProps}>{text}</label>
+            <select {...rest} {...{name, className:inputCN, title: {err}}} {...register(name)} >
+                {options?.map(({value, text}) => (
+                    <option key={value} value={value}>{text || value}</option>
+                ))}
+            </select>
         </div>
     );
 }
