@@ -2,9 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Head from 'next/head'
 import {uniq} from 'lodash'
 
-import {FFTable, FFCoverage, FFChart, tableFetch, getColumnValues} from '../../../widgets/firefly'
+import {FFTable, FFCoverage, FFChart, tableFetch} from '../../../widgets/firefly'
 import {hashcode} from '../../../util/utils'
-import {Aladin} from '../../../widgets/aladin';
 
 import {Form, Input, Select} from '../../../widgets/form';
 import {Page} from '../index';
@@ -64,12 +63,11 @@ export default function App() {
 function Position({onSubmit}) {
 
     const {watch} = useFormContext();
-
     const [catMaster, setCatMaster] = useState();
 
-    const project = watch("project");
-
     const projects = uniq(catMaster?.tableData?.data?.map((r) => r[0])).map((value) => {return {value}});
+
+    const project = watch("project") || projects?.[0]?.value;
     const catalogs = catMaster?.tableData?.data?.filter((r) => r[0] === project)?.map((r) => {return {value:r[4]}});
 
     useEffect(() => {
@@ -93,7 +91,7 @@ function Position({onSubmit}) {
             </div>
 
             <div className='cat'>
-                <Input name='radius'  label='Radius:' {...{min:1, max:1080, required:true}}/>
+                <Input name='radius'  label='Radius:' title='Search radius in arcseconds'{...{min:1, max:1080, required:true}}/>
                 <Select name='project' label='Project:' options={projects}/>
                 <Select name='catalog' label='Catalog:' options={catalogs}/>
             </div>
@@ -157,12 +155,11 @@ function Results({tblSrc, showForm, setShowForm, target}) {
         <div className='box'>
             {!showForm && <button style={{margin: '10px 0'}} onClick={() => setShowForm(true)}> Show Search Form</button>}
             <div className='top'>
-                <FFCoverage style={{marginRight: 5}}/>
-                <FFChart tbl_id={tbl_id}/>
+                <FFCoverage style={{marginRight: 5}}> coverage here </FFCoverage>
+                <FFChart tbl_id={tbl_id}> chart here </FFChart>
             </div>
             <div className='bottom'>
-                <Aladin style={{width: 'unset', height: 'unset', flexGrow: .5}} target={target} id={`aladin-${target}`}/>
-                <FFTable style={{width: 'unset', height: 'unset', flexGrow: .5, marginLeft: 5}}
+                <FFTable style={{height: 'unset', flexGrow: .5}}
                          tbl_id={tbl_id} src={tblSrc} title='Search Results'
                          onHighlight={(a) => console.log(a)}
                          onSelect={(a) => console.log(a)}

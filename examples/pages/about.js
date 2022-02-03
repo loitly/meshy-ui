@@ -8,12 +8,12 @@ export default function App() {
                 Welcome to <em>Meshy-UI</em>!
             </p>
 
-            <style jsx> {`
+            <style jsx > {`
                 p {
                     font-size: larger;
                     text-align: center;
                 }
-            `} </style>
+            `}</style>
         </Page>
     );
 }

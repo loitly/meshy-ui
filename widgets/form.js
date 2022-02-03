@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import React, {useEffect} from 'react';
+import {useForm, FormProvider, useFormContext, useFormState} from 'react-hook-form';
 import {isString, isNil} from 'lodash';
 
 export function Form({onSubmit, className, style, options, children}) {
@@ -29,29 +29,36 @@ export function Form({onSubmit, className, style, options, children}) {
 }
 
 export function Input({label, name, ...props}) {
-    const {register, formState: { errors }} = useFormContext();
+    const {register, control} = useFormContext();
+    const {errors} = useFormState({control, name});
     const {required, maxLength, minLength, max, min, pattern, validate, title, ...rest} = props;
     const {text, ...labelProps} = isString(label) ? {text: label} : label;
     const inputCN = 'form-input' + (errors[name] ? ' invalid' : '');
-    const err = errMsg(name, errors, props);
+    const ititle = errMsg(name, errors, props) || title;
     return (
         <div>
-            <label className='form-label' htmlFor={name} {...labelProps}>{text}</label>
-            <input {...{...rest, name, className:inputCN, title:err}} {...register(name, {required, maxLength, minLength, max, min, pattern, validate})} />
+            <label className='form-label' htmlFor={name} title={title} {...labelProps}>{text}</label>
+            <input {...{...rest, name, className:inputCN, title:ititle}} {...register(name, {required, maxLength, minLength, max, min, pattern, validate})} />
         </div>
     );
 }
 
-export function Select({label, name, ...props}) {
-    const {register, formState: { errors }} = useFormContext();
+export function Select({label, name='', ...props}) {
+    const {register, control, setValue} = useFormContext();
+    const {errors} = useFormState({control, name});
     const {options, onChange, title, ...rest} = props;
     const {text, ...labelProps} = isString(label) ? {text: label} : label;
     const inputCN = 'form-input' + (errors[name] ? ' invalid' : '');
-    const err = errMsg(name, errors, props);
+    const ititle = errMsg(name, errors, props) || title;
+
+    useEffect( () => {
+        setValue(name, options?.[0]?.value);
+    }, [name]);
+
     return (
         <div>
-            <label className='form-label' htmlFor={name} {...labelProps}>{text}</label>
-            <select {...rest} {...{name, className:inputCN, title: {err}}} {...register(name)} >
+            <label className='form-label' htmlFor={name} title={title} {...labelProps}>{text}</label>
+            <select {...rest} {...{name, className:inputCN, title: {ititle}}} {...register(name)} >
                 {options?.map(({value, text}) => (
                     <option key={value} value={value}>{text || value}</option>
                 ))}

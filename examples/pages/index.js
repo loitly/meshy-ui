@@ -34,6 +34,7 @@ export default function App() {
                         <li>Comprehensive plotting tool</li>
                         <li>Powerful table display</li>
                         <li>Shared data model</li>
+                        <li>Firefly API</li>
                     </ul>
                 </a>
                 <div href='https://aladin.u-strasbg.fr/AladinLite/doc/' className='card'>
@@ -51,14 +52,24 @@ export default function App() {
                         <li>Intuitive, feature-complete API</li>
                     </ul>
                 </a>
+                <a href='https://github.com/loitly/meshy-ui/' className='card'>
+                    <h3>Meshy-UI</h3>
+                    <ul>
+                        <li>Ready-for-use Template</li>
+                        <li>JSX for Firefly and Aladin</li>
+                        <li>Unit Test</li>
+                        <li>Simplified Form</li>
+                        <li>Containerized Deployment</li>
+                    </ul>
+                </a>
                 <Link href="/gator/">
                     <a className='card'>
                         <h3>Examples: Gator</h3>
                         <ul>
-                            <li>Firefly</li>
+                            <li>Firefly JSX</li>
+                            <li>Firefly API</li>
                             <li>Meshy Form</li>
-                            <li>Styled CSS</li>
-                            <li>Aladin</li>
+                            <li>Styled JSX</li>
                         </ul>
                     </a>
                 </Link>

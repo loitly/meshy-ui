@@ -32,7 +32,7 @@ async function loadFirefly(scriptName) {
 
 
 
-export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, options={}, tbl_id=`table-${uniqueId()}`,
+export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, options={}, tbl_id=`FFTable`,
                         onHighlight, onSelect, onSort, onFilter, onLoaded, onRemove, onEvent}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -71,8 +71,9 @@ export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, 
 }
 
 
-export function FFChart({style={}, className, tbl_id, tblRequest, chartId=`chart-${uniqueId()}`}) {
+export function FFChart({style={}, className, tbl_id, tblRequest, chartId}) {
 
+    chartId = chartId || 'FFChart-' + tbl_id;
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         if (isLoaded) {
@@ -93,7 +94,7 @@ export function FFChart({style={}, className, tbl_id, tblRequest, chartId=`chart
 }
 
 
-export function FFCoverage({style={}, className, options={}, id=`coverage-${uniqueId()}`}) {
+export function FFCoverage({style={}, className, options={}, id='FFCoverage', children}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
@@ -105,7 +106,11 @@ export function FFCoverage({style={}, className, options={}, id=`coverage-${uniq
     },[isLoaded, id]);
 
     style = {width: '100%', height: '100%', ...style};
-    return (<div className={className} style={style} id={id}/>);
+    return (
+        <div className={className} style={style} id={id}>
+            {children}
+        </div>
+    );
 }
 
 
@@ -126,7 +131,11 @@ export function FFTableGroup({style={}, tbl_group=`group-${uniqueId()}`, childre
     },[isLoaded, tbl_group]);
 
     style = {width: '100%', height: '100%', ...style};
-    return (<div style={style} id={tbl_group}/>);
+    return (
+        <div style={style} id={tbl_group}>
+                {children}
+        </div>
+    );
 }
 
 

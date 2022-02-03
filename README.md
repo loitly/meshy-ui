@@ -27,7 +27,7 @@ Goto [http://localhost:3000](http://localhost:3000) to see the application in yo
 
 To remove the examples application, run
 
-    yarn examples clean
+    yarn clean
 
 
 
