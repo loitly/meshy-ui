@@ -2,11 +2,11 @@
 import React, {useEffect, useState} from 'react';
 import {uniqueId} from 'lodash';
 
-const DEF_FIREFLY = 'https://fireflydev.ipac.caltech.edu/firefly/'
+const DEF_FIREFLY = 'https://irsadev.ipac.caltech.edu/irsaviewer/'
 
 
 let notifyMe = [];
-async function loadFirefly(scriptName) {
+export async function loadFirefly(scriptName) {
     if (window.fireflyIsLoaded) return Promise.resolve();
 
     if (!window.onFireflyLoaded) {
@@ -32,7 +32,7 @@ async function loadFirefly(scriptName) {
 
 
 
-export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, options={}, tbl_id=`FFTable`,
+export function Table({style={}, className, src, altSrc, title, META_INFO={}, options={}, tbl_id='Table',
                         onHighlight, onSelect, onSort, onFilter, onLoaded, onRemove, onEvent}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -43,7 +43,7 @@ export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, 
 
             const {TABLE_FILTER, TABLE_HIGHLIGHT, TABLE_LOADED, TABLE_REMOVE, TABLE_SELECT, TABLE_SORT} = window.firefly.action.type;
             if (onHighlight || onSelect || onSort || onFilter || onLoaded || onRemove || onEvent) {
-                const callback = action => {
+                const callback = (action) => {
                     const {type} = action;
                     const ctbl_id = action.payload?.tbl_id || action.payload?.request?.tbl_id;
                     if (ctbl_id === tbl_id) {
@@ -71,9 +71,9 @@ export function FFTable({style={}, className, src, altSrc, title, META_INFO={}, 
 }
 
 
-export function FFChart({style={}, className, tbl_id, tblRequest, chartId}) {
+export function Chart({style={}, className, tbl_id, tblRequest, chartId}) {
 
-    chartId = chartId || 'FFChart-' + tbl_id;
+    chartId = chartId || 'Chart-' + tbl_id;
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         if (isLoaded) {
@@ -94,7 +94,7 @@ export function FFChart({style={}, className, tbl_id, tblRequest, chartId}) {
 }
 
 
-export function FFCoverage({style={}, className, options={}, id='FFCoverage', children}) {
+export function Coverage({style={}, className, options={}, id='Coverage', children}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
@@ -114,7 +114,7 @@ export function FFCoverage({style={}, className, options={}, id='FFCoverage', ch
 }
 
 
-export function FFTableGroup({style={}, tbl_group=`group-${uniqueId()}`, children}) {
+export function TableGroup({style={}, tbl_group=`group-${uniqueId()}`, children}) {
 
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {

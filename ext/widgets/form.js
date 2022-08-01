@@ -3,8 +3,12 @@ import React, {useEffect} from 'react';
 import {useForm, FormProvider, useFormContext, useFormState} from 'react-hook-form';
 import {isString, isNil} from 'lodash';
 
+
+export const formContext = useFormContext;
+
 export function Form({onSubmit, className, style, options, children}) {
     const methods = useForm(options);
+
     return (
         <FormProvider {...methods} >
             <form className={className} style={style} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -43,7 +47,7 @@ export function Input({label, name, ...props}) {
     );
 }
 
-export function Select({label, name='', ...props}) {
+export function Select({label, name='', defaultValue,  ...props}) {
     const {register, control, setValue} = useFormContext();
     const {errors} = useFormState({control, name});
     const {options, onChange, title, ...rest} = props;
@@ -52,8 +56,8 @@ export function Select({label, name='', ...props}) {
     const ititle = errMsg(name, errors, props) || title;
 
     useEffect( () => {
-        setValue(name, options?.[0]?.value);
-    }, [name]);
+        setValue(name, defaultValue || options?.[0]?.value);
+    }, [name, options]);
 
     return (
         <div>

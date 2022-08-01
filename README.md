@@ -15,23 +15,13 @@ Or, if you only wish to experiment with `Meshy-UI`, you can clone `Meshy-UI` dir
 
     git clone https://github.com/loitly/meshy-ui
 
-`Meshy-UI` comes with examples.  To create the examples application, run
+`Meshy-UI` comes with a demo app.  To run it, 
 
-    cd meshy-ui
-    yarn examples
-    yarn dev
+    git clone https://github.com/loitly/meshy-ui-demo
+    cd meshy-ui-demo
+    yarn start
 
-The above commands build and deploy the examples application running on your local machine with hot reloading.  This means it will monitor source
-files for changes and will automatically build and update the deployment with those changes.  
+
+The above commands build and deploy the demo application on your local machine.  
 Goto [http://localhost:3000](http://localhost:3000) to see the application in your default browser.
-
-To remove the examples application, run
-
-    yarn clean
-
-
-
-### Examples
-- [Gator]('http://localhost:3000/gator)
-
 

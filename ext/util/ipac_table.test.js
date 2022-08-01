@@ -4,7 +4,7 @@ import {parseStream} from "./ipac_table";
 
 const ipacTable = `
 \\fixlen=T
-|ra             |dec             | cntr            |
+|ra             |dec             |cntr             |
 |double         |double          |int              |
   250.1300487     -1.053936        1                
   57.0076633      -1.5705005       2                
